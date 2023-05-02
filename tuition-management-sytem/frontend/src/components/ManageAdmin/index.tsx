@@ -12,8 +12,6 @@ import {
   Button,
   Modal,
   PasswordInput,
-  Badge,
-  Tooltip,
 } from "@mantine/core";
 import { keys } from "@mantine/utils";
 import {
@@ -21,7 +19,6 @@ import {
   IconChevronDown,
   IconChevronUp,
   IconSearch,
-  IconFileAnalytics,
 } from "@tabler/icons";
 import { IconEdit, IconTrash } from "@tabler/icons";
 import { openConfirmModal } from "@mantine/modals";
@@ -29,8 +26,6 @@ import { showNotification, updateNotification } from "@mantine/notifications";
 import AdminAPI from "../../API/adminAPI";
 import { IconCheck, IconAlertTriangle } from "@tabler/icons";
 import { useForm } from "@mantine/form";
-import { PDFDownloadLink } from "@react-pdf/renderer";
-import { AdminPDF } from "../PDFRender/AdminPDFTemplate";
 
 //Interface for admin data - (Raw data)
 interface RowData {
@@ -137,29 +132,9 @@ function sortData(
   );
 }
 
-  //get current Full Date
-  const today = new Date();
-
-  const year = today.getFullYear();
-  const month = today.getMonth() + 1;
-  const date = today.getDate();
-
-
-  interface adminName {
-    user: {
-      _id : string;
-      name: string;
-    };
-  }
-
-const ManageAdmins = ({ user }: adminName) => {
+const ManageAdmins: React.FC = () => {
   const [data, setData] = useState<RowData[]>([]);
   const [loading, setLoading] = useState(true);
-
-
-  //set admin name
-  const adminName = user.name;
-  const adminId = user._id;
 
   // fetch admin data
   useEffect(() => {
@@ -179,8 +154,8 @@ const ManageAdmins = ({ user }: adminName) => {
           customId : item.id,
           name: item.name,
           email: item.email,
-          telephone: item.telephone,
-          address: item.address,
+          telephone: item.String,
+          address: item.string,
           // contactNumber: item.contactNumber,
           // role: item.role,
           // bloodBankId: item.bloodBankId,
@@ -399,7 +374,7 @@ const ManageAdmins = ({ user }: adminName) => {
           : "Invalid email",
 
       telephone: (value) =>
-          value.length != 10 ? "Telephone must have at least 10 numbers" : null,
+          value.length < 11 ? "Telephone must have at least 10 numbers" : null,
 
     
     },
@@ -428,7 +403,7 @@ const ManageAdmins = ({ user }: adminName) => {
         value.length < 8 ? "Password must have at least 8 characters" : null,
 
       telephone: (value) =>
-        value.length != 10 ? "Telephone must have at least 10 numbers" : null,
+        value.length < 11 ? "Telephone must have at least 10 numbers" : null,
     },
   });
 
@@ -478,9 +453,7 @@ const ManageAdmins = ({ user }: adminName) => {
       <td>{row.customId}</td>
       <td>{row.name}</td>
       <td>{row.email}</td>
-      <td>{row.telephone}</td>
-      <td>{row.address}</td>
-      {row.id !== adminId ? <td>
+      <td>
         <Button
           color="teal"
           leftIcon={<IconEdit size={14} />}
@@ -506,42 +479,8 @@ const ManageAdmins = ({ user }: adminName) => {
           sx={{ margin: "5px", width: "100px" }}
         >
           Delete
-        </Button></td> : <td>    <Tooltip
-      label="You can edit your profile through account settings"
-      color="dark"
-      withArrow
-    ><Button
-          color="teal"
-          leftIcon={<IconEdit size={14} />}
-          // onClick={() => {
-          //   editForm.setValues({
-          //     id: row.id,
-          //     customId : row.customId,
-          //     name: row.name,
-          //     email: row.email,
-          //     telephone: row.telephone,
-          //     address: row.address,
-          //   });
-          //   setEditOpened(true);
-          // }}
-          sx={{ margin: "5px", width: "100px" }}
-        >
-          Edit
         </Button>
-        </Tooltip>
-        <Tooltip
-      label="You can delete your profile through account settings"
-      color="dark"
-      withArrow
-    >
-        <Button
-          color="red"
-          leftIcon={<IconTrash size={14} />}
-          // onClick={() => openDeleteModal(row.id)}
-          sx={{ margin: "5px", width: "100px" }}
-        >
-          Delete
-        </Button></Tooltip></td>}
+      </td>
     </tr>
   ));
 
@@ -572,18 +511,6 @@ const ManageAdmins = ({ user }: adminName) => {
             placeholder="Your password"
             label="Password"
             {...addForm.getInputProps("password")}
-            required
-          />
-          <TextInput
-            placeholder="Telephone"
-            label="Telephone"
-            {...addForm.getInputProps("telephone")}
-            required
-          />
-          <TextInput
-            placeholder="Address"
-            label="Address"
-            {...addForm.getInputProps("address")}
             required
           />
           <Button
@@ -654,33 +581,8 @@ const ManageAdmins = ({ user }: adminName) => {
             icon={<IconSearch size={14} stroke={1.5} />}
             value={search}
             onChange={handleSearchChange}
-            sx={{ width: "475px" }}
+            sx={{ width: "300px" }}
           />
-
-
-          {/* download Report button */}
-          <PDFDownloadLink
-            document={<AdminPDF data={data} user={adminName} />}
-            fileName={`CLASSDETAILS_${year}_${month}_${date}`}
-          >
-            {({ loading }) =>
-              loading ? (
-                <Button
-                  color="red"
-                  disabled
-                  loading
-                  leftIcon={<IconFileAnalytics size={16} />}
-                >
-                  Generating...
-                </Button>
-              ) : (
-                <Button color="red" leftIcon={<IconFileAnalytics size={16} />}>
-                  Generate Report
-                </Button>
-              )
-            }
-          </PDFDownloadLink>
-
           <Button
             variant="gradient"
             gradient={{ from: "indigo", to: "cyan" }}
@@ -718,20 +620,6 @@ const ManageAdmins = ({ user }: adminName) => {
                   onSort={() => setSorting("email")}
                 >
                   Email
-                </Th>
-                <Th
-                  sorted={sortBy === "telephone"}
-                  reversed={reverseSortDirection}
-                  onSort={() => setSorting("telephone")}
-                >
-                  Phone
-                </Th>
-                <Th
-                  sorted={sortBy === "address"}
-                  reversed={reverseSortDirection}
-                  onSort={() => setSorting("address")}
-                >
-                  Address
                 </Th>
                 <th>Action</th>
               </tr>

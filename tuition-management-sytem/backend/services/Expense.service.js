@@ -1,5 +1,4 @@
 import Expense from "../models/expense.model";
-import FixedValue from '../models/expense.fixed.value.model';
 
 //generate expense Id
 const generateExpenseId = async () => {
@@ -66,39 +65,6 @@ export const editExpense = async (id,updatedExpense) => {
   return await Expense.findByIdAndUpdate(id, updatedExpense, { new: true });
 };
 
-//get admin count 
-export const getExpenseCountService = async () => {
-  return await Expense
-   .countDocuments()
-   .then((data) => {
-     return data;
-   })
-   .catch((error) =>{
-     throw new Error(error.message);
-   });
-   
-};
-
-//add fixed value
-const addFixedValueService = async (fixedvalue) => {
-  return await FixedValue.create(fixedvalue).then((res)=>{
-    res.save();
-    return res;
-  }).catch((error) =>{
-    return error.message;
-  })
-};
-
-//get last added fixed value
-const getLastFixedValue = async () => {
-  try {
-    const lastDocument = await FixedValue.find().sort({ _id: -1 }).limit(1);
-    return lastDocument;
-  } catch (error) {
-    return error.message;
-  }
-  
-};
 
 
 module.exports = {
@@ -106,7 +72,4 @@ module.exports = {
   getAllExpenses,
   deleteExpense,
   editExpense,
-  getExpenseCountService,
-  addFixedValueService,
-  getLastFixedValue,
 };

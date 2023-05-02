@@ -44,8 +44,6 @@ export class adminAPI {
     let admin = {
       name: values.name,
       email: values.email,
-      telephone: values.telephone,
-      address:values.address
     };
     return axios.put(
       `${BASE_URL}/admin/${values.id}`,
