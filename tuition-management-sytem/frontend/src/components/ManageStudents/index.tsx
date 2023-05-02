@@ -38,7 +38,9 @@ import { IconCheck, IconAlertTriangle } from "@tabler/icons";
 import { useForm } from "@mantine/form";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { StudentPDF } from "../PDFRender/StudentPDFTemplate";
-import { DatePicker } from "@mantine/dates";
+
+
+
 
 export const options = {
   responsive: true,
@@ -90,7 +92,7 @@ interface RowData {
 
 //Interface for parent data - (Raw data)
 interface RowDataParent {
-  _id: string;
+  _id: string,
   id: string;
   name: string;
   email: string;
@@ -117,6 +119,7 @@ const getAllParents = async () => {
 //   const data = await response.data;
 //   return data;
 // };
+
 
 //Stylings
 const useStyles = createStyles((theme) => ({
@@ -216,7 +219,7 @@ const date = today.getDate();
 interface adminName {
   user: {
     name: string;
-    email: string;
+    email:string;
   };
 }
 
@@ -300,7 +303,9 @@ const ManageStudents = ({ user }: adminName) => {
   const [opened, setOpened] = useState(false);
   const [editOpened, setEditOpened] = useState(false);
 
+
   const fetchParentDetails = async () => {
+
     const resultParent = await getAllParents();
 
     const dataParent = resultParent.map((item: any) => {
@@ -314,11 +319,11 @@ const ManageStudents = ({ user }: adminName) => {
     });
 
     setParents(dataParent);
-  };
+  }
   //edit student form
   const editStudent = async (values: {
     _id: string;
-    id: string;
+    id: string,
     name: string;
     email: string;
     phone: string;
@@ -561,13 +566,14 @@ const ManageStudents = ({ user }: adminName) => {
         /^\d{10}$/.test(value)
           ? null
           : "Phone number must be 10 digits long number",
-      // birthDate: (value) =>
-      // /^\d{2}\/\d{2}\/\d{4}$/.test(value)
-      //     ? null
-      //     : "Invalid date of birth, date of birth must be in YYYY-MM-DD format",
+      // password: (value) =>
+      //   value.length < 8 ? "Password must have at least 8 characters" : null,
+      birthDate: (value) =>
+        /^\d{4}-\d{2}-\d{2}$/.test(value)
+          ? null
+          : "Invalid date of birth, date of birth must be in YYYY-MM-DD format",
 
-      grade: (value) =>
-        parseInt(value) <= 0 || parseInt(value) > 13 ? "Invalid Grade" : null,
+      grade : (value) => parseInt(value) <= 0 || parseInt(value) > 13 ? "Invalid Grade" : null,    
     },
   });
 
@@ -682,7 +688,7 @@ const ManageStudents = ({ user }: adminName) => {
       <td>{row.phone}</td>
       <td>{row.school}</td>
       <td>{row.grade}</td>
-      <td>{new Date(row.birthDate).toLocaleDateString("en-GB")}</td>
+      <td>{row.birthDate.slice(0, 10)}</td>
       <td>{row.gender}</td>
       <td>{row.address}</td>
       <td>
@@ -736,7 +742,7 @@ const ManageStudents = ({ user }: adminName) => {
                   phone: row.phone,
                   school: row.school,
                   grade: row.grade,
-                  birthDate: new Date(row.birthDate).toLocaleDateString("en-GB"),
+                  birthDate: row.birthDate.slice(0, 10),
                   gender: row.gender,
                   address: row.address,
                   parent: row.parent,
@@ -813,16 +819,12 @@ const ManageStudents = ({ user }: adminName) => {
             {...addForm.getInputProps("grade")}
             required
           />
-
-          <DatePicker
-            placeholder="Select Birth Date"
+          <TextInput
             label="Birth Date"
-            withAsterisk
-            required
-            allowFreeInput
+            placeholder="Enter birth date"
             {...addForm.getInputProps("birthDate")}
+            required
           />
-
           <TextInput
             label="Address"
             placeholder="Enter address"
@@ -948,13 +950,7 @@ const ManageStudents = ({ user }: adminName) => {
         </form>
       </Modal>
       <Box sx={{ margin: "20px", width: "100%" }}>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginBottom: 10,
-          }}
-        >
+        <Box sx={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
           <TextInput
             placeholder="Search by any field"
             mb="md"
@@ -972,11 +968,9 @@ const ManageStudents = ({ user }: adminName) => {
           >
             Generate Report
           </Button> */}
-          {/* download Report button */}
-          <PDFDownloadLink
-            document={
-              <StudentPDF data={data} parent={parents} user={adminName} />
-            }
+           {/* download Report button */}
+           <PDFDownloadLink
+            document={<StudentPDF data={data} parent= {parents} user={adminName} />}
             fileName={`STUDENTDETAILS_${year}_${month}_${date}`}
           >
             {({ loading }) =>
@@ -1008,14 +1002,13 @@ const ManageStudents = ({ user }: adminName) => {
           >
             Add Student
           </Button>
+
+
         </Box>
         <ScrollArea
-          sx={{
-            height: 700,
-            width: 1500,
-            marginLeft: -300,
-            marginBottom: -163,
-          }}
+
+          sx={{ height: 700, width: 1500, marginLeft: -300, marginBottom: -163 }}
+
         >
           <Table
             horizontalSpacing="md"
