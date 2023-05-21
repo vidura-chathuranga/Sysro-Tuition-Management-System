@@ -664,7 +664,7 @@ const ManageStudents = ({ user }: adminName) => {
 
           <Menu.Dropdown>
             {/* <Menu.Label>Enroll Students</Menu.Label> */}
-            <Menu.Item
+            <Menu.Item disabled
               lh={0}
               color={"blue"}
               icon={<IconLink size={14} />}
@@ -982,6 +982,7 @@ const ManageStudents = ({ user }: adminName) => {
                   sorted={sortBy === "id"}
                   reversed={reverseSortDirection}
                   onSort={() => setSorting("id")}
+                  
                 >
                   ID
                 </Th>
