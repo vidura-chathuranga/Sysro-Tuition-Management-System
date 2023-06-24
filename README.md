@@ -1,13 +1,14 @@
 # Project Name - Sysro Tuition Management System
-# Batch - Y2S2- Group 6.2
-### Group Leader - IT21244698 - Thilakasiri P. K. V. C (vidura-chathuranga)
-### Member 2 - IT21244766 - Pathirana K. P. V. (VinnathPathirana)
-### Member 3 - IT21238512 - Soysa W. M. Y (YashodiniSoyza)
-### Member 4 - IT21233876 - Hasanka G. S (IT21233876HasankaGS)
-### Member 5 - IT21327476 - Jasingha S. D (Dilshan-686)
-### Member 6 - IT21232954 - Silva R. L. G (IT21232954)
-### Member 7 - IT21211928 - Gamlath W. A. V. K (VenuraKaushan)
-### Member 8 - IT21229398 - Bandara A. M. B. S (sahanbandara23623)
+
+#Contributors:
+### Member 1 - Thilakasiri P. K. V. C (vidura-chathuranga)
+### Member 2 - Pathirana K. P. V. (VinnathPathirana)
+### Member 3 - Soysa W. M. Y (YashodiniSoyza)
+### Member 4 - Hasanka G. S (IT21233876HasankaGS)
+### Member 5 - Jasingha S. D (Dilshan-686)
+### Member 6 - Silva R. L. G (IT21232954)
+### Member 7 - Gamlath W. A. V. K (VenuraKaushan)
+### Member 8 - Bandara A. M. B. S (sahanbandara23623)
 
 #### Brief Description of Project -
 
